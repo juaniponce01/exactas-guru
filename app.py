@@ -12,19 +12,19 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.document_loaders import PyPDFDirectoryLoader
-from transformers import AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
+from transformers import BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer, GenerationConfig, pipeline
 
 
 load_dotenv()
 
 model_name = "mistralai/Mistral-7B-Instruct-v0.1"
 
-# quantization_config = BitsAndBytesConfig(
-#     load_in_4bit=True,
-#     bnb_4bit_compute_dtype=torch.float16,
-#     bnb_4bit_quant_type="nf4",
-#     bnb_4bit_use_double_quant=True,
-# )
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_compute_dtype=torch.float16,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_use_double_quant=True,
+)
 
 tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
 tokenizer.pad_token = tokenizer.eos_token
@@ -56,7 +56,7 @@ final_llm = HuggingFacePipeline(
 
 embeddings = HuggingFaceEmbeddings(
             model_name="thenlper/gte-large",
-            model_kwargs={"device": "cpu"},
+            model_kwargs={"device": "cuda"},
             encode_kwargs={"normalize_embeddings": True},
         )
 
