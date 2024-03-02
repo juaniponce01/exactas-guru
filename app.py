@@ -32,7 +32,8 @@ tokenizer.pad_token = tokenizer.eos_token
 model = AutoModelForCausalLM.from_pretrained(
     model_name, torch_dtype=torch.float16,
     trust_remote_code=True,
-    device_map="auto"
+    device_map="auto",
+    quantization_config=quantization_config
 )
 
 generation_config = GenerationConfig.from_pretrained(model_name)
