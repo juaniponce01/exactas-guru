@@ -15,8 +15,17 @@ model_name = "mistralai/Mistral-7B-Instruct-v0.1"
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(
-    model_name, torch_dtype=torch.float16,
-    trust_remote_code=True,
+        model_name,
+        torch_dtype=torch.bfloat16,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+
+pipe = pipeline(
+    "text-generation", 
+    model=model, 
+    tokenizer = tokenizer, 
+    torch_dtype=torch.bfloat16, 
     device_map="auto"
 )
 
