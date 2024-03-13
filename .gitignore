@@ -65,8 +65,8 @@ db.sqlite3
 db.sqlite3-journal
 
 # Chroma stuff:
-db
-chroma.sqlite3
+# db
+# chroma.sqlite3
 
 # Flask stuff:
 instance/
